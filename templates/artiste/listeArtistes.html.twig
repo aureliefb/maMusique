@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Artistes & groupes{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1 class="text-center my-4">Artistes & groupes ({{ artistes|length }})</h1>
+
+        <div class="row justify-content-center">
+        {% for artist in artistes %}
+            {% set nbConcerts = artist.concerts|length %}
+            {% set nbAlbums = artist.albums|length %}
+
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 my-2">
+                <div class="card mb-2{% if artist.type == 'Groupe' %} border-danger {% else %} border-warning {% endif %}" style="max-width: 30rem;">
+                  <div class="card-header">
+                      <span class="d-flex justify-content-center {% if artist.type == 'Groupe' %} text-danger {% else %} text-warning {% endif %}"><b>{{ artist.nom|upper }}</b></span>
+                  </div>
+                    <div class="card-body py-0">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-around">
+                                <span class="badge rounded-pill d-flex justify-content-end {% if artist.type == 'Groupe' %} text-danger {% else %} text-warning  {% endif %}">{{ artist.type }}</span>
+                                <span class="card-text"><img src="{{ asset('/images/flags/'~artist.pays.code~'.jpg') }}" class="img-fluid" alt="drapeau {{ artist.pays.pays }}" style="width:1.6rem; border-radius: 10px;"> {{ artist.pays.pays }}</span>
+                                <span class="badge rounded-pill bg-info">{{ artist.style.style }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                  <div class="card-body">
+                    <img src="{{ asset('/images/artists/'~artist.image) }}" class="card-img-top mx-auto d-block" alt="photo de {{ artist.nom }}" style="max-width:50%; display:block;">
+                  </div>
+                    <div class="card-body py-0">
+                        <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-around">
+                            <span class="card-text text-success">{{ nbConcerts }}{% if nbConcerts > 1 %} concerts {% else %} concert{% endif %}</span>
+                            <span class="card-text text-success">{{ nbConcerts }}{% if nbAlbums > 1 %} albums {% else %} album{% endif %}</span>
+                        </li>
+                        </ul>
+                    </div>
+                  <div class="card-body d-grid">
+                    <a href="{{ path('ficheArtiste', {'id': artist.id}) }}" class="btn border-secondary text-center">En savoir +</a>
+                  </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+
+        
+    </div>
+{% endblock %}

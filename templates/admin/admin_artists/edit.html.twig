@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Artistes{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="mt-4">
+            <h1 class="text-center">Edition ...</h1>
+        </div>
+
+        <!-- formulaire -->
+
+        <button class="btn btn-primary btn-sm">{{ button|default('Enregistrer') }}</button>
+        <a href="{{ path('admin_artists') }}">Retour à la liste</a>
+
+
+
+    </div>
+
+{% endblock %}
