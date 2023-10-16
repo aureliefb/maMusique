@@ -13,7 +13,6 @@ class AdminArtistController extends AbstractController
     public function index(ArtisteRepository $repoArtists): Response
     {
         $artists = $repoArtists->findAll();
-        $test = 'test';
         return $this->render('admin/admin_artists/index.html.twig', [
             'artists' => $artists
         ]);

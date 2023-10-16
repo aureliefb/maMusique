@@ -13,7 +13,7 @@ class ArtisteController extends AbstractController
     #[Route('/artistes', name: 'artistes', methods: ['GET'])]
     public function index(ArtisteRepository $repo): Response
     {
-        $artistes = $repo->findAll();
+        $artistes = $repo->findBy([], ['nom'=>'ASC']);
         return $this->render('artiste/listeArtistes.html.twig', [
             'artistes' => $artistes
         ]);
