@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Artiste;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,20 +22,20 @@ class ArtisteRepository extends ServiceEntityRepository
         parent::__construct($registry, Artiste::class);
     }
 
-//    /**
-//     * @return Artiste[] Returns an array of Artiste objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Artiste[] Returns an array of Artiste objects
+     */
+    public function listAllArtists(): ?Query
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a', 's', 'p')
+            ->innerJoin('a.style', 's')
+            ->innerJoin('a.pays','p')
+            ->orderBy('a.nom', 'ASC')
+            ->getQuery();
+            //->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Artiste
 //    {

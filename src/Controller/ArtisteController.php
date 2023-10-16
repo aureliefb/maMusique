@@ -4,18 +4,25 @@ namespace App\Controller;
 
 use App\Entity\Artiste;
 use App\Repository\ArtisteRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ArtisteController extends AbstractController
 {
     #[Route('/artistes', name: 'artistes', methods: ['GET'])]
-    public function index(ArtisteRepository $repo): Response
+    public function index(ArtisteRepository $repo, PaginatorInterface $page, Request $request): Response
     {
-        $artistes = $repo->findBy([], ['nom'=>'ASC']);
+        //$artistes = $repo->findBy([], ['nom'=>'ASC']);
+        $qry_all_artists = $repo->listAllArtists();
+        $all_artistes = $page->paginate(
+            $qry_all_artists,
+            $request->query->getInt('page', 1),
+            3);
         return $this->render('artiste/listeArtistes.html.twig', [
-            'artistes' => $artistes
+            'artistes' => $all_artistes
         ]);
     }
 
