@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Supports{% endblock %}
+
+{% block body %}
+
+    <div class="container col-6">
+        <h1 class="text-center my-4">Gestion des supports d'albums</h1>
+        <div class="mb-2">
+            <a button type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_support') }}">
+                <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20"> Nouveau
+            </a>
+        </div>
+
+        <table id="tab-admin-supports" class="table table-striped table-sm">
+            <thead>
+            <tr>
+                {# <td>id</td> #}
+                <td><span class="badge rounded-pill bg-info text-dark">{{ nbSupports }}</span> Supports</td>
+                <td>Nb albums</td>
+                <td>Je veux faire quoi ?</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for support in supports %}
+                <tr>
+                    {# <td>{{ pays.id }}</td>#}
+                    <td>{{ support.support }}</td>
+                    <td>nb albums</td>
+                    <td>
+                        <a type="button" class="btn btn-warning btn-sm" href="{{ path('admin_edit_support', {'id':support.id}) }}">
+                            <img src="{{ asset('/images/icons/pencil.svg') }}" class="img-fluid" alt="icone-edit" width="15" height="15">
+                        </a>
+                        <a class="btn btn-danger btn-sm"
+                           data-bs-toggle="modal"
+                           data-bs-target="#modaleConfirm"
+                           data-title="Supprimer support <i>{{ support.support }}</i> ?"
+                           data-label-btn="Supprimer"
+                           data-link="{{ path('admin_delete_support', {'id':support.id}) }}">
+                            <img src="{{ asset('/images/icons/trash.svg') }}" class="img-fluid" alt="icone-supprimer" width="15" height="15">
+                        </a>
+                        <!--a href=""><button type="button" class="btn btn-primary btn-sm">
+                            <img src="{# { asset('/images/icons/eye.svg') } #}" class="img-fluid" alt="icone-voir" width="15" height="15"></button>
+                        </a-->
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation d-flex justify-content-start">
+            {{ knp_pagination_render(supports) }}
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'include/_modale.html.twig' %}
+{% endblock %}

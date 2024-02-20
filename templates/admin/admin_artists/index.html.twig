@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+{% import 'macros/flagsMacro.html.twig' as utils %}
+
+{% block title %}Admin - Artistes{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+    <h1 class="text-center my-4">Gestion des artistes & groupes</h1>
+    <div class="mb-2">
+        <a type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_artist') }}">
+            <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20"> Nouveau
+        </a>
+    </div>
+
+    <table id="tab-admin-artists" class="table table-hover table-sm">
+        <thead>
+        <tr>
+            {# <td>id</td> #}
+            <td>Miniature</td>
+            <td><span class="badge rounded-pill bg-info text-dark">{{ nbArtists }}</span> Artistes /groupes</td>
+            <td>Type</td>
+            <td>Style</td>
+            <td>Pays</td>
+            <td>Nb albums</td>
+            <td>Nb concerts</td>
+            <td>Site web</td>
+            <td>Je veux faire quoi ?</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for artist in artists %}
+            {% set substr = artist.pays.pays|lower %}
+            <tr style="height:80px;">
+                <td class="text-center">
+                    <img src="{{ asset('/images/artists/'~artist.image) }}" alt="photo {{ artist.nom }}" style="height:80px;"/>
+                </td>
+                <td>{{ artist.nom }}</td>
+                <td>{{ artist.type }}</td>
+                <td>{{ artist.style.style }}</td>
+                <td><div class="d-flex align-items-center">{{ utils.flags(artist.pays.pays) }} {{ artist.pays.pays|slice(0,10) }}</div></td>
+                <td>nb Albums</td>
+                <td>nb concerts</td>
+                <td>
+                    <a type="button" class="btn btn-secondary btn-sm" href="{{ artist.siteWeb }}" target="_blank">
+                        <img src="{{ asset('/images/icons/box-arrow-up-right.svg') }}" class="img-fluid" alt="icone-open" width="15" height="15">
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ path('admin_edit_artist', {'id':artist.id}) }}" type="button" class="btn btn-warning btn-sm">
+                        <img src="{{ asset('/images/icons/pencil.svg') }}" class="img-fluid" alt="icone-edit" width="15" height="15">
+                    </a>
+                    <a type="button" class="btn btn-danger btn-sm"
+                       data-bs-toggle="modal"
+                       data-bs-target="#modaleConfirm"
+                       data-title="Supprimer artiste <i>{{ artist.nom }}</i> ?"
+                       data-label-btn="Supprimer"
+                       data-link="{{ path('admin_delete_artist', {'id':artist.id}) }}">
+                        <img src="{{ asset('/images/icons/trash.svg') }}" class="img-fluid" alt="icone-supprimer" width="15" height="15">
+                    </a>
+                    <a href="{{ path('ficheArtiste', {'id':artist.id}) }}" type="button" class="btn btn-primary btn-sm">
+                        <img src="{{ asset('/images/icons/eye.svg') }}" class="img-fluid" alt="icone-voir" width="15" height="15">
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation d-flex justify-content-start">
+        {{ knp_pagination_render(artists) }}
+    </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'include/_modale.html.twig' %}
+{% endblock %}

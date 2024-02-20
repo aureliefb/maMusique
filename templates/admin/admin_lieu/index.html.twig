@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+{% import 'macros/flagsMacro.html.twig' as utils %}
+
+{% block title %}Admin - Lieux{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="text-center my-4">Gestion des lieux</h1>
+        <div class="mb-2">
+            <a type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_lieu') }}">
+                <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20"> Nouveau
+            </a>
+        </div>
+
+        <table id="tab-admin-lieux" class="table table-hover table-sm">
+            <thead>
+            <tr>
+                {# <td>id</td> #}
+                <td><span class="badge rounded-pill bg-info text-dark">{{ nbLieux }}</span> Lieux</td>
+                <td>Adresse</td>
+                <td>Code postal</td>
+                <td>Ville</td>
+                <td>festival</td>
+                <td>Nb concerts</td>
+                <td>Coordo ?</td>
+                <td>On fait quoi ?</td>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for lieu in lieux %}
+                {% set adresseCompl = '' %}
+                {% if lieu.adresse2 is defined and lieu.adresse2|length > 0 %}
+                    {% set adresseCompl = lieu.adresse2 %}
+                {% else %}
+                    {% set adresseCompl = ' ' %}
+                {% endif %}
+
+                {% set is_disabled = '' %}
+                {% set gps_checked = 'x' %}
+                {% if (lieu.latitude is defined and lieu.latitude is not null and lieu.latitude|length > 0) and
+                    (lieu.longitude is defined and lieu.longitude is not null and lieu.longitude|length > 0) %}
+                    {% set is_disabled = 'disabled' %}
+                    {% set gps_checked = 'check' %}
+                {% endif %}
+                <tr>
+                    {# <td>{{ lieu.id }}</td>#}
+                    <td>{{ lieu.nom }}</td>
+                    <td>{{ lieu.adresse1 }} {{ adresseCompl }}</td>
+                    <td>{{ lieu.codepostal }}</td>
+                    <td>{{ lieu.ville }}</td>
+                    <td>festival</td>
+                    <td>nb concerts</td>
+                    <td><img src="{{ asset('/images/icons/'~gps_checked~'-lg.svg') }}"></td>
+                    <td>
+                        <button type="button" {{ is_disabled }} class="btn btn-success btn-sm"
+                           data-bs-toggle="modal"
+                           data-bs-target="#modaleGenerate"
+                           data-title="Génération de coordonnées GPS"
+                           data-label-btn="Générer"
+                           data-id="{{ lieu.id }}"
+                           data-adr1="{{ lieu.adresse1 }}"
+                           data-adr2="{{ adresseCompl }}"
+                           data-cp="{{ lieu.codepostal }}"
+                           data-ville="{{ lieu.ville }}"
+                           data-link="{{ path('generate_coordo', {'id':lieu.id, 'adresse1':lieu.adresse1, 'codepostal':lieu.codepostal, 'ville':lieu.ville}) }}">
+                            <img src="{{ asset('/images/icons/signpost-2.svg') }}" class="img-fluid" alt="icone-generate" width="15" height="15">
+                        </button>
+                        <a href="{{ path('admin_edit_lieu', {'id':lieu.id}) }}" type="button" class="btn btn-warning btn-sm">
+                            <img src="{{ asset('/images/icons/pencil.svg') }}" class="img-fluid" alt="icone-edit" width="15" height="15">
+                        </a>
+                        <a type="button" class="btn btn-danger btn-sm"
+                           data-bs-toggle="modal"
+                           data-bs-target="#modaleConfirm"
+                           data-title="Supprimer <i>{{ lieu.nom }}</i> ?"
+                           data-label-btn="Supprimer"
+                           data-link="{{ path('admin_delete_lieu', {'id':lieu.id}) }}">
+                            <img src="{{ asset('/images/icons/trash.svg') }}" class="img-fluid" alt="icone-supprimer" width="15" height="15">
+                        </a>
+                        {#<a href="{{ path('ficheLieu', {'id':lieu.id}) }}" type="button" class="btn btn-primary btn-sm">
+                            <img src="{{ asset('/images/icons/eye.svg') }}" class="img-fluid" alt="icone-voir" width="15" height="15">
+                        </a>#}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation d-flex justify-content-start">
+            {{ knp_pagination_render(lieux) }}
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'include/_modale.html.twig' %}
+    {% include 'include/modaleGPS.html.twig' %}
+{% endblock %}

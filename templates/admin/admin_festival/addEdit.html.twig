@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Festivals{% endblock %}
+{% block body %}
+    {% if app.request.attributes.get('_route') == 'admin_add_festival' %}
+        {% set titre_page = 'Ajouter' %}
+        {% set btn_valid = 'Ajouter' %}
+    {% elseif app.request.attributes.get('_route') == 'admin_edit_festival' %}
+        {% set titre_page = 'Modifier' %}
+        {% set btn_valid = 'Modifier' %}
+    {% endif %}
+
+    <div class="container col-12">
+        <div class="row my-4">
+            <div class="col-2"><a type="button" class="btn btn-secondary btn-sm" href="{{ path('admin_festival') }}">Retour</a></div>
+            <div class="col-8"><h1 class="text-center">{{ titre_page }} un festival</h1></div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="col-12 d-flex align-items-center justify-content-center border">
+                    <img src="{{ asset('/images/festivals/'~affiche) }}" alt="affiche {{ nom }}" style="width:80%" />
+                </div>
+            </div>
+            <div class="col-6">
+                {{ form_start(formFestival, {'attr':{'novalidate':'novalidate'}}) }}
+                    <div class="row">
+                        <div class="col-6">{{ form_row(formFestival.nom_festival) }}</div>
+                        <div class="col-5">{{ form_row(formFestival.lieu) }}</div>
+                        <div class="col-1 mt-3 pt-3">
+                            <a type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_lieu', {'source': 'formAddFestival'}) }}">
+                                <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">{{ form_row(formFestival.date_start) }}</div>
+                        <div class="col-6">{{ form_row(formFestival.date_end) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">{{ form_row(formFestival.site_web) }}</div>
+                    </div>
+                <div class="row">
+                    <div class="col-8">{{ form_row(formFestival.image) }}</div>
+                </div>
+                    <a href="{{ path('admin_festival') }}" class="btn btn-secondary btn-sm">Annuler</a>
+                    <button type="submit" class="btn btn-primary btn-sm">{{ btn_valid }}</button>
+                {{ form_end(formFestival) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

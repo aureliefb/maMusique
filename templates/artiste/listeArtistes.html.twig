@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+{% import 'macros/flagsMacro.html.twig' as utils %}
+
+{% block title %}{{ parent() }} - Artistes & groupes{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1 class="text-center my-4">Artistes & groupes ({{ nbArtists }})</h1>
+
+        <div class="row">
+        {% for artist in artistes %}
+            {% set nbConcerts = artist.concerts|length %}
+            {% set nbAlbums = artist.albums|length %}
+            {% set flagname = artist.pays.pays|lower %}
+
+            <div id="card_{{ artist.nom|replace({' ': ''}) }}" class="cardArtist col-sm-12 col-md-6 col-lg-6 col-xl-3 my-2">
+                <div class="card mb-2{% if artist.type == 'Groupe' %} border-danger {% else %} border-warning {% endif %}" style="max-width: 30rem;">
+                  <div class="card-header d-flex justify-content-between align-items-center {% if artist.type == 'Groupe' %}text-danger{% else %}text-warning{% endif %}">
+                      <span class=""><b>{{ artist.nom|upper }}</b></span>
+                      <span class=""><small>{{ artist.type }}</small></span>
+                  </div>
+                   <div class="card-body">
+                      <div class="row mb-3 d-flex align-items-start">
+                          <div class="col-7 d-flex justify-content-start">
+                            <span class="flagname d-flex justify-content-start">
+                                {{ utils.flags(artist.pays.pays) }} {{ artist.pays.pays }}
+                            </span>
+                          </div>
+                          <div class="col-5 d-flex justify-content-end">
+                            <span class="badge rounded-pill bg-info">{{ artist.style.style }}</span>
+                          </div>
+                      </div>
+                      <div id="imgArtistList" class="d-flex align-content-center align-items-center">
+                        <img src="{{ asset('/images/artists/'~artist.image) }}" class="card-img-top mx-auto d-block" alt="photo de {{ artist.nom }}">
+                      </div>
+                      <div class="mt-3 row">
+                           <div class="col-7 d-flex justify-content-center">
+                               <span class="card-text text-success">{{ nbConcerts }}{% if nbConcerts > 1 %} concerts {% else %} concert{% endif %}</span>
+                           </div>
+                           <div class="col-5 d-flex justify-content-center">
+                               <span class="card-text text-success">{{ nbAlbums }}{% if nbAlbums > 1 %} albums {% else %} album{% endif %}</span>
+                           </div>
+                       </div>
+
+                  </div>
+                  <div class="card-footer d-grid bg-transparent">
+                    <a href="{{ path('ficheArtiste', {'id': artist.id}) }}" class="btn border-secondary text-center">En savoir +</a>
+                  </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="navigation d-flex justify-content-center">
+            {{ knp_pagination_render(artistes) }}
+        </div>
+
+        </div>
+
+        
+    </div>
+{% endblock %}

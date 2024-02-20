@@ -1,0 +1,3 @@
+{% macro flags(pays) %}
+    <img src="{{ asset('/images/flags/'~pays|lower~'.jpg') }}" class="img-fluid mx-1" alt="drapeau {{ pays }}" style="width:2rem; border-radius: 5px;">
+{% endmacro%}

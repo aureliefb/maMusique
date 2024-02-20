@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Lieux{% endblock %}
+{% block body %}
+    {% if app.request.attributes.get('_route') == 'admin_add_lieu' or app.request.attributes.get('_route') == 'generate_coordo' %}
+        {% set titre_page = 'Ajouter' %}
+        {% set btn_valid = 'Ajouter' %}
+    {% elseif app.request.attributes.get('_route') == 'admin_edit_lieu' or app.request.attributes.get('_route') == 'update_coordo' %}
+        {% set titre_page = 'Modifier' %}
+        {% set btn_valid = 'Modifier' %}
+    {% endif %}
+
+    <div class="container col-8">
+        <div class="row my-4">
+            <div class="col-2"><a type="button" class="btn btn-secondary btn-sm" href="{{ path('admin_lieux') }}">Retour</a></div>
+            <div class="col-8"><h1 class="text-center">{{ titre_page }} un lieu</h1></div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="latitude" class="form-label">Latitude</label>
+                        <input type="text" class="form-control" id="latitude" value="{{ latitude }}" disabled aria-describedby="latitude">
+                    </div>
+                    <div class="col-6">
+                        <label for="longitude" class="form-label">Longitude</label>
+                        <input type="text" class="form-control" id="longitude" value="{{ longitude }}" disabled aria-describedby="longitude">
+                    </div>
+                </div>
+                <div class="row border">
+                    <div class="col-12">carte</div>
+                </div>
+            </div>
+            <div class="col-6">
+                {{ form_start(formLieu, {'attr':{'novalidate':'novalidate'}}) }}
+                    <div class="row">
+                        <div class="col-12">{{ form_row(formLieu.nom) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">{{ form_row(formLieu.adresse1) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">{{ form_row(formLieu.adresse2) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">{{ form_row(formLieu.code_postal) }}</div>
+                        <div class="col-7">{{ form_row(formLieu.ville) }}</div>
+                    </div>
+                    <a href="{{ path('admin_lieux') }}" class="btn btn-secondary btn-sm">Annuler</a>
+                    <button type="submit" class="btn btn-primary btn-sm">{{ btn_valid }}</button>
+                {{ form_end(formLieu) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

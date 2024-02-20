@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Concert{% endblock %}
+{% block body %}
+    {% if app.request.attributes.get('_route') == 'admin_add_concert' %}
+        {% set titre_page = 'Ajouter' %}
+        {% set btn_valid = 'Ajouter' %}
+    {% elseif app.request.attributes.get('_route') == 'admin_edit_concert' %}
+        {% set titre_page = 'Modifier' %}
+        {% set btn_valid = 'Modifier' %}
+    {% endif %}
+
+    <div class="container col-12">
+        <div class="row my-4">
+            <div class="col-2"><a type="button" class="btn btn-secondary btn-sm" href="{{ path('admin_concerts') }}">Retour</a></div>
+            <div class="col-8"><h1 class="text-center">{{ titre_page }} un concert</h1></div>
+        </div>
+
+        <div class="row">
+            <div class="col-5 mt-4">
+                <div class="col-12 d-flex align-items-center justify-content-center border">
+                    <img src="{{ asset('/images/concerts/'~photo) }}" alt="photo concert {% if nomArtiste is defined %}{{ nomArtiste }}{% else %}{{ '' }}{% endif %}" style="width:80%" />
+                </div>
+            </div>
+            <div class="col-7">
+                {{ form_start(formConcert, {'attr':{'novalidate':'novalidate'}}) }}
+                    <div class="row">
+                        <div class="col-5">{{ form_row(formConcert.artiste) }}</div>
+                        <div class="col-1 mt-3 pt-3">
+                            <a type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_artist', {'source': 'formAddConcert'}) }}">
+                                <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20">
+                            </a>
+                        </div>
+                        <div class="col-4 offset-1">{{ form_row(formConcert.lieu) }}</div>
+                        <div class="col-1 mt-3 pt-3">
+                            <a type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_lieu', {'source': 'formAddConcert'}) }}">
+                                <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">{{ form_row(formConcert.date_concert) }}</div>
+                        <div class="col-2 offset-2">{{ form_row(formConcert.is_festival) }}</div>
+                        <div class="col-4">{{ form_row(formConcert.Festival) }}</div>
+                        <div class="col-1 mt-3 pt-3">
+                            <a type="submit" class="btn btn-sm btn-success" href="{{path('admin_add_festival', {'source': 'formAddConcert'}) }}">
+                                <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">{{ form_row(formConcert.image) }}</div>
+                    </div>
+
+                    <a href="{{ path('admin_concerts') }}" class="btn btn-secondary btn-sm">Annuler</a>
+                    <button type="submit" class="btn btn-primary btn-sm">{{ btn_valid }}</button>
+                {{ form_end(formConcert) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

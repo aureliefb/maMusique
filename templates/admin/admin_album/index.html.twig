@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Albums{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <h1 class="text-center my-4">Gestion des albums</h1>
+        <div class="mb-2">
+            <a type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_album') }}">
+                <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20"> Nouveau
+            </a>
+        </div>
+
+        <table id="tab-admin-albums" class="table table-hover table-sm">
+            <thead>
+            <tr>
+                {# <td>id</td> #}
+                <td>Pochette</td>
+                <td><span class="badge rounded-pill bg-info text-dark">{{ nbAlbums }}</span> Albums</td>
+                <td>Artiste</td>
+                <td>Année</td>
+                <td>style</td>
+                <td>Je veux faire quoi ?</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for album in albums %}
+                <tr style="height:80px;">
+                    {# <td>{{ artist.id }}</td>#}
+                    <td class="text-center">
+                        <img src="{{ asset('/images/albums/'~album.image) }}" alt="photo {{ album.nom }}" style="height:80px;"/>
+                    </td>
+                    <td>{{ album.nom }}</td>
+                    <td>artiste</td>
+                    <td>{{ album.annee }}</td>
+                    <td>style</td>
+                    <td>
+                        <a href="{{ path('admin_edit_album', {'id':album.id}) }}" type="button" class="btn btn-warning btn-sm">
+                            <img src="{{ asset('/images/icons/pencil.svg') }}" class="img-fluid" alt="icone-edit" width="15" height="15">
+                        </a>
+                        <a type="button" class="btn btn-danger btn-sm"
+                           data-bs-toggle="modal"
+                           data-bs-target="#modaleConfirm"
+                           data-title="Supprimer album <i>{{ album.nom }}</i> ?"
+                           data-label-btn="Supprimer"
+                           data-link="{{ path('admin_delete_album', {'id':album.id}) }}">
+                            <img src="{{ asset('/images/icons/trash.svg') }}" class="img-fluid" alt="icone-supprimer" width="15" height="15">
+                        </a>
+                        <a href="{{ path('ficheArtiste', {'id':album.id}) }}" type="button" class="btn btn-primary btn-sm">
+                            <img src="{{ asset('/images/icons/eye.svg') }}" class="img-fluid" alt="icone-voir" width="15" height="15">
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation d-flex justify-content-start">
+            {{ knp_pagination_render(albums) }}
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'include/_modale.html.twig' %}
+{% endblock %}

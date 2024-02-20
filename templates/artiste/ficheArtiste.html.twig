@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+{% import 'macros/flagsMacro.html.twig' as utils %}
+
+{% block title %}{{ parent() }} - Fiche Artiste{% endblock %}
+
+{% block body %}
+    {% set nbConcerts = artist.concerts|length %}
+    {% set nbAlbums = artist.albums|length %}
+    {% set flagname = artist.pays.pays|lower %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-2 mt-2"><a type="button" class="btn btn-secondary btn-sm" href="{{ path('artistes') }}">Retour</a></div>
+            <div class="col-10 my-4 d-flex align-content-flex-start"><h1 class="">{{ artist.nom|upper }}</h1></div>
+        </div>
+
+
+        <div class="card mb-3 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+          <div class="row m-2 d-flex align-items-start">
+            <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4" style="border:1px blue solid;">
+                <div id="imgArtistFiche" class="d-flex justify-content-center" style="border:1px red solid; ">
+                  <img src="{{ asset('/images/artists/'~artist.image) }}" class="img-fluid" alt="photo {{ artist.nom }}" >
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
+              <div class="card-header py-3" style="border:1px red solid;">
+                <div class="card-text d-flex justify-content-center align-items-center gap-5">
+                    <span class="badge rounded-pill {% if artist.type == 'Groupe' %} text-danger {% else %} text-warning  {% endif %}">{{ artist.type }}</span>
+                    <span class="card-text d-flex align-items-center">
+                        {{ utils.flags(artist.pays.pays) }} {{ artist.pays.pays }}
+                    </span>
+                    <span class="badge rounded-pill bg-info">{{ artist.style.style }}</span>
+                    <span class="text-muted"><a href="{{ artist.siteweb }}">Site Web</a></span>
+                </div>
+              </div>
+              <div class="card-body" style="border:1px green solid; height:100%;">
+                <div class="card-text">{{ artist.description }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+    </div>
+
+
+    <div class="container mt-5 gap-5 d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-md-wrap flex-lg-nowrap flex-xl-nowrap">
+        <div class="d-flex col-sm-12 col-md-12 col-lg-6 col-xl-6 justify-content-center">
+            <div class="card" style="width: 100%;">
+              <div class="card-header text-center">
+                <h3><img src="{{ asset('/images/icons/mic.svg') }}" class="img-fluid" alt="icone" style="width:20px;"> {% if nbConcerts > 1 %} Concerts {% else %} Concert {% endif %}({{ nbConcerts }})</h3>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">An item</li>
+                <li class="list-group-item">A second item</li>
+                <li class="list-group-item">A third item</li>
+              </ul>
+            </div>
+        </div>
+
+        <div class="d-flex col-sm-12 col-md-12 col-lg-6 col-xl-6 justify-content-center">    
+            <div class="card" style="width: 100%;">
+              <div class="card-header text-center">
+                <h3><img src="{{ asset('/images/icons/boombox.svg') }}" class="img-fluid" alt="icone" style="width:20px;"> {% if nbConcerts > 1 %} Albums {% else %} Album {% endif %} ({{ nbAlbums }})</h3>
+              </div>
+              <div class="card-body">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td>img mini</td>
+                      <td>Album 1</td>
+                      <td>Année</td>
+                      <td class="support">support (icone)</td>
+                    </tr>
+                    <tr>
+                      <td>img mini</td>
+                      <td>Album 2</td>
+                      <td>Année</td>
+                      <td class="support">support (icone)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

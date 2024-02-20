@@ -1,0 +1,61 @@
+<div class="modal fade" id="modaleGenerate" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="titleGPS"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <label for="adresse1" class="form-label">Adresse principale</label>
+                            <input type="text" class="form-control" id="adresse1" value="" disabled aria-describedby="adresse principale">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <label for="adresse2" class="form-label">Adresse (complément)</label>
+                            <input type="text" class="form-control" id="adresse2" value="" disabled aria-describedby="adresse complément">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <label for="codepostal" class="form-label">Code postal</label>
+                            <input type="number" class="form-control" id="codepostal" value="" disabled aria-describedby="code postal">
+                        </div>
+                        <div class="col-9">
+                            <label class="form-label" for="ville">Ville</label>
+                            <input type="text" class="form-control" id="ville" value="" disabled aria-describedby="ville">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" name="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <a href="" id="generate" class="btn btn-success"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("button[data-link]").click(function() {
+        // on récupère les éléments de la balise a
+        let link = $(this).attr('data-link');
+        let title = $(this).attr('data-title');
+        let btn = $(this).attr('data-label-btn');
+        let adresse1 = $(this).attr('data-adr1');
+        let adresse2 = $(this).attr('data-adr2');
+        let codepostal = $(this).attr('data-cp');
+        let ville = $(this).attr('data-ville');
+
+        $('#adresse1').val(adresse1);
+        $('#adresse2').val(adresse2);
+        $('#codepostal').val(codepostal);
+        $('#ville').val(ville);
+
+        $('#generate').attr('href', link).text(btn);
+        $('#titleGPS').html(title);
+    });
+</script>

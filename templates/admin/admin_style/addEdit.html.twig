@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Styles{% endblock %}
+{% block body %}
+    {% if app.request.attributes.get('_route') == 'admin_add_style' %}
+        {% set titre_page = 'Ajouter' %}
+        {% set btn_valid = 'Ajouter' %}
+    {% elseif app.request.attributes.get('_route') == 'admin_edit_style' %}
+        {% set titre_page = 'Modifier' %}
+        {% set btn_valid = 'Modifier' %}
+    {% endif %}
+
+    <div class="container col-8">
+        <div class="row my-4">
+            <div class="col-2"><a type="button" class="btn btn-secondary btn-sm" href="{{ path('admin_styles') }}">Retour</a></div>
+            <div class="col-8"><h1 class="text-center">{{ titre_page }} un style</h1></div>
+        </div>
+        <div class="d-flex justify-content-center">
+            {{ form_start(formStyle, {'attr':{'novalidate':'novalidate'}}) }}
+                <div class="row">
+                    <div class="col-12">{{ form_row(formStyle.style) }}</div>
+                </div>
+                <a href="{{ path('admin_styles') }}" class="btn btn-secondary btn-sm">Annuler</a>
+                <button type="submit" class="btn btn-primary btn-sm">{{ btn_valid }}</button>
+            {{ form_end(formStyle) }}
+        </div>
+    </div>
+
+{% endblock %}

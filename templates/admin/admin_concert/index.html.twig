@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Concerts{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <h1 class="text-center my-4">Gestion des concerts</h1>
+        <div class="mb-2">
+            <a type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_concert') }}">
+                <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20"> Nouveau
+            </a>
+        </div>
+
+        {% if nbConcerts > 0 %}
+        <table id="tab-admin-concerts" class="table table-hover table-sm">
+            <thead>
+            <tr>
+                {# <td>id</td> #}
+                <td>image</td>
+                <td><span class="badge rounded-pill bg-info text-dark">{{ nbConcerts }}</span> Concerts</td>
+                <td>Date</td>
+                <td>Festival</td>
+                <td>Lieu</td>
+                <td>Je veux faire quoi ?</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for concert in concerts %}
+            <tr style="height:80px;">
+                <td class="text-center">
+                    <img src="{{ asset('/images/concerts/'~concert.image) }}" alt="photo concert {{ concert.artiste.nom }}" style="height:80px;"/>
+                </td>
+                <td>{{ concert.artiste.nom }}</td>
+                <td>{% if concert.dateconcert|length > 0 %}{{ concert.dateconcert }}{% else %}{{ 'NC' }}{% endif %}</td>
+                <td>{% if concert.festival.nomfestival is defined %}{{ concert.festival.nomfestival }}{% else %} {{ 'Aucun' }}{% endif %}</td>
+                <td>{{ concert.lieu.nom }} ({{ concert.lieu.ville }})</td>
+                <td>
+                    <a href="{{ path('admin_edit_concert', {'id':concert.id}) }}" type="button" class="btn btn-warning btn-sm">
+                        <img src="{{ asset('/images/icons/pencil.svg') }}" class="img-fluid" alt="icone-edit" width="15" height="15">
+                    </a>
+                    <a type="button" class="btn btn-danger btn-sm"
+                       data-bs-toggle="modal"
+                       data-bs-target="#modaleConfirm"
+                       data-title="Supprimer concert <i>artiste</i> ?"
+                       data-label-btn="Supprimer"
+                       data-link="{{ path('admin_delete_concert', {'id':concert.id}) }}">
+                        <img src="{{ asset('/images/icons/trash.svg') }}" class="img-fluid" alt="icone-supprimer" width="15" height="15">
+                    </a>
+                    {#<a href="{{ path('ficheConcert', {'id':concert.id}) }}" type="button" class="btn btn-primary btn-sm">
+                        <img src="{{ asset('/images/icons/eye.svg') }}" class="img-fluid" alt="icone-voir" width="15" height="15">
+                    </a>#}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <div class="alert alert-warning text-center">Aucun résultat</div>
+        {% endif %}
+
+        <div class="navigation d-flex justify-content-start">
+            {{ knp_pagination_render(concerts) }}
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'include/_modale.html.twig' %}
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Artistes{% endblock %}
+{% block body %}
+    {% if app.request.attributes.get('_route') == 'admin_add_artist' %}
+        {% set titre_page = 'Ajouter' %}
+        {% set btn_valid = 'Ajouter' %}
+    {% elseif app.request.attributes.get('_route') == 'admin_edit_artist' %}
+        {% set titre_page = 'Modifier' %}
+        {% set btn_valid = 'Modifier' %}
+    {% endif %}
+
+    <div class="container col-12">
+        <div class="row my-4">
+            <div class="col-2"><a type="button" class="btn btn-secondary btn-sm" href="{{ path('admin_artists') }}">Retour</a></div>
+            <div class="col-8"><h1 class="text-center">{{ titre_page }} un artiste/groupe</h1></div>
+        </div>
+
+        <div class="row">
+            <div class="col-4 mt-4">
+                <div class="col-12 d-flex align-items-center justify-content-center border">
+                    <img src="{{ asset('/images/artists/'~photo) }}" alt="photo artiste {{ nom }} " style="width:80%" />
+                </div>
+            </div>
+            <div class="col-8">
+                {{ form_start(formArtiste, {'attr':{'novalidate':'novalidate'}}) }}
+                    <div class="row">
+                        <div class="col-6">{{ form_row(formArtiste.nom) }}</div>
+                        <div class="col-6">{{ form_row(formArtiste.image) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">{{ form_row(formArtiste.pays) }}</div>
+                        <div class="col-1 mt-3 pt-3">
+                            <a type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_pays', {'source':'formAddArtist'}) }}">
+                                <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20">
+                            </a>
+                        </div>
+                        <div class="col-3 offset-1">{{ form_row(formArtiste.type, {'label': 'Type (groupe ou solo)'}) }}</div>
+                        <div class="col-3">{{ form_row(formArtiste.style) }}</div>
+                        <div class="col-1 mt-3 pt-3">
+                            <a type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_style', {'source':'formAddArtist'}) }}">
+                                <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">{{ form_row(formArtiste.site_web) }}</div>
+                    </div>
+
+                    <div class="row col-12">
+                        <div class="">{{ form_row(formArtiste.description) }}</div>
+                    </div>
+                    <a href="{{ path('admin_artists') }}" class="btn btn-secondary btn-sm">Annuler</a>
+                    <button type="submit" class="btn btn-primary btn-sm">{{ btn_valid }}</button>
+                {{ form_end(formArtiste) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

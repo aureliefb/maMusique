@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Festivals{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="text-center my-4">Gestion des festivals</h1>
+        <div class="mb-2">
+            <a type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_festival') }}">
+                <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20"> Nouveau
+            </a>
+        </div>
+
+        <table id="tab-admin-festival" class="table table-hover table-sm">
+            <thead>
+            <tr>
+                {# <td>id</td> #}
+                <td>Image</td>
+                <td><span class="badge rounded-pill bg-info text-dark">{{ nbFestivals }}</span> Festivals</td>
+                <td>Lieu</td>
+                <td>Dates</td>
+                <td>Site web</td>
+                <td>Nb concerts</td>
+                <td>Nb artistes</td>
+                <td>quoi ?</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for festival in festivals %}
+                {# % set substr = festival.pays.pays|lower % #}
+                {% set dates = '' %}
+                {% if festival.datestart and festival.dateend %}
+                    {% set dates = 'Du ' ~ festival.datestart ~ ' au ' ~ festival.dateend %}
+                {% elseif festival.datestart != '' and festival.dateend == '' %}
+                    {% set dates = 'Du '~ festival.datestart ~ ' au - ' %}
+                {% elseif festival.datestart == '' and festival.dateend != '' %}
+                    {% set dates = 'Du - au '~ festival.dateend %}
+                {% endif %}
+
+                <tr>
+                    {# <td>{{ festival.id }}</td>#}
+                    <td class="text-center">
+                        <img src="{{ asset('/images/festivals/'~festival.image) }}" alt="affiche {{ festival.nomfestival }}" style="height:110px" />
+                    </td>
+                    <td>{{ festival.nomfestival }}</td>
+                    <td>{{ festival.lieu.nom }} ({{ festival.lieu.ville }})</td>
+                    <td>{{ dates }}</td>
+                    <td>
+                        <a type="button" class="btn btn-secondary btn-sm" href="{{ festival.siteweb }}" target="_blank">
+                            <img src="{{ asset('/images/icons/box-arrow-up-right.svg') }}" class="img-fluid" alt="icone-open" width="15" height="15">
+                        </a>
+                    </td>
+                    <td>nb concerts</td>
+                    <td>nb artistes</td>
+                    <td>
+                        <a href="{{ path('admin_edit_festival', {'id':festival.id}) }}" type="button" class="btn btn-warning btn-sm">
+                            <img src="{{ asset('/images/icons/pencil.svg') }}" class="img-fluid" alt="icone-edit" width="15" height="15">
+                        </a>
+                        <a type="button" class="btn btn-danger btn-sm"
+                           data-bs-toggle="modal"
+                           data-bs-target="#modaleConfirm"
+                           data-title="Supprimer <i>{{ festival.nomfestival }}</i> ?"
+                           data-label-btn="Supprimer"
+                           data-link="{{ path('admin_delete_festival', {'id':festival.id}) }}">
+                            <img src="{{ asset('/images/icons/trash.svg') }}" class="img-fluid" alt="icone-supprimer" width="15" height="15">
+                        </a>
+                        {#<a href="{{ path('ficheFestival', {'id':festival.id}) }}" type="button" class="btn btn-primary btn-sm">
+                            <img src="{{ asset('/images/icons/eye.svg') }}" class="img-fluid" alt="icone-voir" width="15" height="15">
+                        </a>#}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation d-flex justify-content-start">
+            {{ knp_pagination_render(festivals) }}
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'include/_modale.html.twig' %}
+{% endblock %}
