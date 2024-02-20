@@ -37,7 +37,7 @@
                 </td>
                 <td>{{ artist.nom }}</td>
                 <td>{{ artist.type }}</td>
-                <td>{{ artist.style.style }}</td>
+                <td><span class="badge rounded-pill" style="background-color:{{ artist.style.color }}; font-weight:normal;">{{ artist.style.style }}</span></td>
                 <td><div class="d-flex align-items-center">{{ utils.flags(artist.pays.pays) }} {{ artist.pays.pays|slice(0,10) }}</div></td>
                 <td>nb Albums</td>
                 <td>nb concerts</td>

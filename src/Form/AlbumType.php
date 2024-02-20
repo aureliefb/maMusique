@@ -7,6 +7,7 @@ use App\Entity\Artiste;
 use App\Entity\Support;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -41,6 +42,10 @@ class AlbumType extends AbstractType
                         'mimeTypesMessage' => 'Format incorrect'
                     ])
                 ]
+            ])
+            ->add('support', ChoiceType::class, [
+                'label' => 'Support',
+                'placeholder' => 'Choisir un support',
             ])
             /*->add('support', EntityType::class, [
                 'class' => Support::class,

@@ -25,7 +25,7 @@
             {% for support in supports %}
                 <tr>
                     {# <td>{{ pays.id }}</td>#}
-                    <td>{{ support.support }}</td>
+                    <td><img width="20px" src="{{ asset('/images/icons/'~support.support|replace({' ':'', 'é':'e'})|lower~'.png') }}" alt="icon {{ support.support }}"> {{ support.support }}</td>
                     <td>nb albums</td>
                     <td>
                         <a type="button" class="btn btn-warning btn-sm" href="{{ path('admin_edit_support', {'id':support.id}) }}">

@@ -25,8 +25,13 @@
             <div class="col-6">
                 {{ form_start(formAlbum, {'attr':{'novalidate':'novalidate'}}) }}
                     <div class="row">
-                        <div class="col-9">{{ form_row(formAlbum.nom) }}</div>
-                        <div class="col-3">{{ form_row(formAlbum.annee) }}</div>.
+                        <div class="col-6">{{ form_row(formAlbum.nom) }}</div>
+                        {#<div class="col-6">{{ form_row(formAlbum.artiste) }}</div>#}
+                    </div>
+                    <div class="row">
+                        <div class="col-3">{{ form_row(formAlbum.annee) }}</div>
+                        <div class="col-5">{{ form_row(formAlbum.support) }}</div>
+
                         {#<div class="col-3">{{ form_row(formAlbum.artiste) }}</div>#}
                     </div>
 

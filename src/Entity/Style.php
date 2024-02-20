@@ -23,6 +23,9 @@ class Style
     #[ORM\OneToMany(mappedBy: 'style', targetEntity: Artiste::class)]
     private Collection $artistes;
 
+    #[ORM\Column(length: 10)]
+    private ?string $color = null;
+
     public function __construct()
     {
         $this->artistes = new ArrayCollection();
@@ -79,4 +82,17 @@ class Style
 
         return $this;
     }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): static
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
 }
