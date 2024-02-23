@@ -10,33 +10,31 @@
         {% set btn_valid = 'Modifier' %}
     {% endif %}
 
-    <div class="container col-8">
+    <div class="container col-10">
         <div class="row my-4">
             <div class="col-2"><a type="button" class="btn btn-secondary btn-sm" href="{{ path('admin_albums') }}">Retour</a></div>
             <div class="col-8"><h1 class="text-center">{{ titre_page }} un album</h1></div>
         </div>
 
         <div class="row">
-            <div class="col-6 mt-4">
+            <div class="col-5 mt-4">
                 <div class="col-12 d-flex align-items-center justify-content-center border">
                     <img src="{{ asset('/images/albums/'~pochette) }}" alt="pochette album" style="width:80%" />
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-7">
                 {{ form_start(formAlbum, {'attr':{'novalidate':'novalidate'}}) }}
                     <div class="row">
+                        <div class="col-4">{{ form_row(formAlbum.album_artist) }}</div>
                         <div class="col-6">{{ form_row(formAlbum.nom) }}</div>
-                        {#<div class="col-6">{{ form_row(formAlbum.artiste) }}</div>#}
                     </div>
                     <div class="row">
                         <div class="col-3">{{ form_row(formAlbum.annee) }}</div>
-                        <div class="col-5">{{ form_row(formAlbum.support) }}</div>
-
-                        {#<div class="col-3">{{ form_row(formAlbum.artiste) }}</div>#}
+                        <div class="offset-1 col-5">{{ form_row(formAlbum.album_support) }}</div>
                     </div>
 
                     <div class="row">
-                        <div class="col-12">{{ form_row(formAlbum.image) }}</div>
+                        <div class="col-10">{{ form_row(formAlbum.image) }}</div>
                     </div>
                     <a href="{{ path('admin_albums') }}" class="btn btn-secondary btn-sm">Annuler</a>
                     <button type="submit" class="btn btn-primary btn-sm">{{ btn_valid }}</button>

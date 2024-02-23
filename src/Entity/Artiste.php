@@ -57,10 +57,14 @@ class Artiste
     #[ORM\ManyToMany(mappedBy: 'artiste', targetEntity: Album::class)]
     private Collection $albums;
 
+    #[ORM\OneToMany(mappedBy: 'albumArtist', targetEntity: Album::class)]
+    private Collection $albumsArtiste;
+
     public function __construct()
     {
         $this->concerts = new ArrayCollection();
         $this->albums = new ArrayCollection();
+        $this->albumsArtiste = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -203,6 +207,36 @@ class Artiste
     {
         if ($this->albums->removeElement($album)) {
             $album->removeArtiste($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Album>
+     */
+    public function getAlbumsArtiste(): Collection
+    {
+        return $this->albumsArtiste;
+    }
+
+    public function addAlbumsArtiste(Album $albumsArtiste): static
+    {
+        if (!$this->albumsArtiste->contains($albumsArtiste)) {
+            $this->albumsArtiste->add($albumsArtiste);
+            $albumsArtiste->setAlbumArtist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAlbumsArtiste(Album $albumsArtiste): static
+    {
+        if ($this->albumsArtiste->removeElement($albumsArtiste)) {
+            // set the owning side to null (unless already changed)
+            if ($albumsArtiste->getAlbumArtist() === $this) {
+                $albumsArtiste->setAlbumArtist(null);
+            }
         }
 
         return $this;

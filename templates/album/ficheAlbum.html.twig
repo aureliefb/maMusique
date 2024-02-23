@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Fiche Album{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-2 mt-2"><a type="button" class="btn btn-secondary btn-sm" href="{{ path('albums') }}">Retour</a></div>
+            <div class="col-10 my-4 d-flex align-content-flex-start"><h1 class="">{{ album.albumArtist.nom|upper }}</h1></div>
+        </div>
+
+        <div class="card mb-3 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+          <div class="row d-flex align-items-start">
+            <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4" style="border:1px blue solid;">
+                <div id="imgArtistFiche" class="d-flex justify-content-center" style="border:1px red solid; ">
+                  <img src="{{ asset('/images/albums/'~album.image) }}" class="img-fluid" alt="photo {{ album.albumArtist.nom }}" >
+                </div>
+            </div>
+
+            <div class="card col-sm-12 col-md-12 col-lg-8 col-xl-8 p-0" style="min-height:350px; border:1px solid {{ album.albumArtist.style.color }};">
+              <div class="card-header py-3 d-flex align-items-center gap-2">
+                  <img src="{{ asset('/images/icons/'~album.albumSupport.support|replace({' ':'', 'é':'e'})|lower~'.png') }}" alt="icon {{ album.albumSupport.support }}" style="width:20px;">
+                  <span class="fs-4">{{ album.nom }}</span>
+              </div>
+                <div class="my-3 px-3 d-flex justify-content-start align-items-center gap-4">
+                    <span class="">{{ album.annee }}</span>
+                    <span class="badge rounded-pill" style="background-color:{{ album.albumArtist.style.color }}; font-weight:normal;">{{ album.albumArtist.style.style }}</span>
+                    <span class=""><a href="{{ path('ficheArtiste', {'id':album.albumArtist.id}) }}">Fiche de l'artiste</a></span>
+                    <span class=""><a href="{{ album.albumArtist.siteweb }}">Ecouter / voir</a></span>
+                </div>
+              <div class="card-body" style="border:1px green solid; height:100%;">
+                  <div class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A asperiores, delectus error, explicabo facilis labore laboriosam laudantium, libero maiores nobis placeat qui repellendus totam. Aliquam eum facilis officia saepe velit!</div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+    <div class="container mt-5 gap-5 d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-md-wrap flex-lg-nowrap flex-xl-nowrap">
+        <div class="d-flex col-sm-12 col-md-12 col-lg-6 col-xl-6 justify-content-center">
+            <div class="card" style="width: 100%;">
+              {#<div class="card-header text-center">
+                <h3><img src="{{ asset('/images/icons/'~album.albumSupport.support|replace({' ':'', 'é':'e'})|lower~'.png') }}" alt="icon {{ album.albumSupport.support }}" style="width:20px;"> {{ album.nom }}</h3>
+              </div>#}
+              <div class="card-body">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td>id track</td>
+                      <td>trackname</td>
+                      <td>durée</td>
+                      <td><button type="button" class="btn btn-sm btn-warning"><img src="{{ asset('/images/icons/music-note-beamed.svg') }}" alt="icon musique" style="width:15px;"></button></td>
+                    </tr>
+                    <tr>
+                      <td>id</td>
+                      <td>name</td>
+                      <td>durée</td>
+                      <td><button type="button" class="btn btn-sm btn-warning"><img src="{{ asset('/images/icons/music-note-beamed.svg') }}" alt="icon musique" style="width:15px;"></button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

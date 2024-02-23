@@ -43,20 +43,18 @@ class AlbumType extends AbstractType
                     ])
                 ]
             ])
-            ->add('support', ChoiceType::class, [
-                'label' => 'Support',
-                'placeholder' => 'Choisir un support',
-            ])
-            /*->add('support', EntityType::class, [
+            ->add('album_support', EntityType::class, [
                 'class' => Support::class,
-                'choice_label' => 'nom',
+                'choice_label' => 'support',
+                'label' => 'Support de l\'album',
                 'placeholder' => 'Choisir un support'
-            ])*/
-            /*->add('artiste', EntityType::class, [
+            ])
+            ->add('album_artist', EntityType::class, [
                 'class' => Artiste::class,
                 'choice_label' => 'nom',
+                'label' => 'Artiste / groupe',
                 'placeholder' => 'Choisir un artiste'
-          ])*/
+          ])
         ;
     }
 

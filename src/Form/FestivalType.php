@@ -52,7 +52,6 @@ class FestivalType extends AbstractType
             ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
-                //'choice_label' => 'nom',
                 'choice_label' => function($lieu) {
                     return $lieu->getNom() .' ('. $lieu->getVille().')';
                 },

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Album;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,19 +23,22 @@ class AlbumRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Album[] Returns an array of Pays objects
+     * @return Album[] Returns an array of Album objects
      */
-    public function listAllAlbums(): array {
+    public function listAllAlbums(): ?Query
+    {
         return $this->createQueryBuilder('alb')
-            ->select('alb')
+            ->select('alb', 'artiste')
+            ->leftJoin('alb.albumArtist', 'artiste')
             ->orderBy('alb.nom', 'ASC')
             ->getQuery()
-            ->getResult();
+            //->getResult()
+            ;
     }
 
     public function countAllAlbums() : array {
-        return $this->createQueryBuilder('a')
-            ->select('count(a.id)')
+        return $this->createQueryBuilder('alb')
+            ->select('count(alb.id)')
             ->getQuery()
             ->getResult();
     }

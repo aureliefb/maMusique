@@ -36,6 +36,14 @@ class Album
     #[ORM\ManyToMany(targetEntity: Artiste::class, inversedBy: 'albums')]
     private Collection $artiste;
 
+    #[ORM\ManyToOne(inversedBy: 'albumsSupport')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Support $albumSupport = null;
+
+    #[ORM\ManyToOne(inversedBy: 'albumsArtiste')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Artiste $albumArtist = null;
+
     public function __construct()
     {
         $this->support = new ArrayCollection();
@@ -127,6 +135,30 @@ class Album
     public function removeArtiste(Artiste $artiste): static
     {
         $this->artiste->removeElement($artiste);
+
+        return $this;
+    }
+
+    public function getAlbumSupport(): ?Support
+    {
+        return $this->albumSupport;
+    }
+
+    public function setAlbumSupport(?Support $albumSupport): static
+    {
+        $this->albumSupport = $albumSupport;
+
+        return $this;
+    }
+
+    public function getAlbumArtist(): ?Artiste
+    {
+        return $this->albumArtist;
+    }
+
+    public function setAlbumArtist(?Artiste $albumArtist): static
+    {
+        $this->albumArtist = $albumArtist;
 
         return $this;
     }

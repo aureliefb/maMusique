@@ -11,7 +11,7 @@
         <div class="row">
         {% for artist in artistes %}
             {% set nbConcerts = artist.concerts|length %}
-            {% set nbAlbums = artist.albums|length %}
+            {% set nbAlbums = artist.albumsArtiste|length %}
             {% set flagname = artist.pays.pays|lower %}
 
             <div id="card_{{ artist.nom|replace({' ': ''}) }}" class="cardArtist col-sm-12 col-md-6 col-lg-6 col-xl-3 my-2">

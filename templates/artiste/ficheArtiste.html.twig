@@ -5,8 +5,10 @@
 
 {% block body %}
     {% set nbConcerts = artist.concerts|length %}
-    {% set nbAlbums = artist.albums|length %}
+    {% set nbAlbums = artist.albumsArtiste|length %}
     {% set flagname = artist.pays.pays|lower %}
+
+    {#{{ dump(artist.concerts) }}#}
 
     <div class="container">
         <div class="row">
@@ -16,15 +18,15 @@
 
 
         <div class="card mb-3 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-          <div class="row m-2 d-flex align-items-start">
+          <div class="row d-flex align-items-start">
             <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4" style="border:1px blue solid;">
                 <div id="imgArtistFiche" class="d-flex justify-content-center" style="border:1px red solid; ">
                   <img src="{{ asset('/images/artists/'~artist.image) }}" class="img-fluid" alt="photo {{ artist.nom }}" >
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
-              <div class="card-header py-3" style="border:1px red solid;">
+            <div class="card col-sm-12 col-md-12 col-lg-8 col-xl-8 p-0" style="border:1px solid {{ artist.style.color }};">
+              <div class="card-header py-3">
                 <div class="card-text d-flex justify-content-center align-items-center gap-5">
                     <span class="badge rounded-pill {% if artist.type == 'Groupe' %} text-danger {% else %} text-warning  {% endif %}">{{ artist.type }}</span>
                     <span class="card-text d-flex align-items-center">
@@ -40,9 +42,7 @@
             </div>
           </div>
         </div>
-        
     </div>
-
 
     <div class="container mt-5 gap-5 d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column flex-md-wrap flex-lg-nowrap flex-xl-nowrap">
         <div class="d-flex col-sm-12 col-md-12 col-lg-6 col-xl-6 justify-content-center">
@@ -50,34 +50,50 @@
               <div class="card-header text-center">
                 <h3><img src="{{ asset('/images/icons/mic.svg') }}" class="img-fluid" alt="icone" style="width:20px;"> {% if nbConcerts > 1 %} Concerts {% else %} Concert {% endif %}({{ nbConcerts }})</h3>
               </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">An item</li>
-                <li class="list-group-item">A second item</li>
-                <li class="list-group-item">A third item</li>
-              </ul>
+                <table class="table"><tbody>
+                {% for concert in artist.concerts %}
+                    <tr class="mt-2">
+                        <td>{% if concert.Festival.nomFestival is defined %}
+                                {{ concert.Festival.nomFestival }} {{ concert.dateConcert|slice(0,4) }}
+                            {% else %}
+                                {{ concert.dateConcert|slice(0,4) }}
+                            {% endif %}</td>
+                        <td>{{ concert.lieu.nom }}</td>
+                        <td>{{ concert.lieu.ville }}</td>
+                        <td>voir
+                            {#<a href="{{ path('ficheConcert', {'id':concert.id}) }}" type="button" class="btn btn-primary btn-sm">
+                                <img src="{{ asset('/images/icons/eye.svg') }}" class="img-fluid" alt="icone-voir" width="15" height="15">
+                            </a>#}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody></table>
             </div>
         </div>
 
         <div class="d-flex col-sm-12 col-md-12 col-lg-6 col-xl-6 justify-content-center">    
             <div class="card" style="width: 100%;">
               <div class="card-header text-center">
-                <h3><img src="{{ asset('/images/icons/boombox.svg') }}" class="img-fluid" alt="icone" style="width:20px;"> {% if nbConcerts > 1 %} Albums {% else %} Album {% endif %} ({{ nbAlbums }})</h3>
+                <h3><img src="{{ asset('/images/icons/boombox.svg') }}" class="img-fluid" alt="icone" style="width:20px;"> {% if nbAlbums > 1 %} Albums {% else %} Album {% endif %} ({{ nbAlbums }})</h3>
               </div>
               <div class="card-body">
                 <table class="table">
                   <tbody>
+                  {% for album in artist.albumsArtiste %}
                     <tr>
-                      <td>img mini</td>
-                      <td>Album 1</td>
-                      <td>Année</td>
-                      <td class="support">support (icone)</td>
+                      <td><img src="{{ asset('/images/albums/'~album.image) }}" alt="pochette album {{ album.nom }}" style="width:80px;"></td>
+                      <td>
+                          <img src="{{ asset('/images/icons/'~album.albumSupport.support|replace({' ':'', 'é':'e'})|lower~'.png') }}" alt="icon {{ album.albumSupport.support }}" style="width:20px;">
+                          {{ album.nom }}
+                      </td>
+                      <td>{{ album.annee }}</td>
+                      <td>
+                        <a href="{{ path('ficheAlbum', {'id':album.id}) }}" type="button" class="btn btn-primary btn-sm">
+                            <img src="{{ asset('/images/icons/eye.svg') }}" class="img-fluid" alt="icone-voir" width="15" height="15">
+                        </a>
+                      </td>
                     </tr>
-                    <tr>
-                      <td>img mini</td>
-                      <td>Album 2</td>
-                      <td>Année</td>
-                      <td class="support">support (icone)</td>
-                    </tr>
+                  {% endfor %}
                   </tbody>
                 </table>
               </div>
