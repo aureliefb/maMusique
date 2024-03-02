@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Concerts{% endblock %}
+
+{% block body %}
+
+    <div class="container col-12">
+        <h1 class="text-center my-4">Concerts ({{ nbConcerts }})</h1>
+
+        <div class="row">
+            <div class="col-7 mb-3">
+                <div class="row">carte</div>
+            </div>
+
+            <div class="col-5 mb-3">
+                <table class="table table-borderless table-sm">
+                    <tbody>
+                    {% for concert in concerts %}
+                    <tr style="border:1px solid black;">
+                        <tr>
+                            <td>
+                                {# voir comment gérer le cas des img :
+                                je veux afficher soit l'affiche du festival soit une photo du concert (que j'ai prise !)
+                                mais je peux être dans le cas où je peux avoir l'affiche du festival ET une/des img du concert #}
+                                {% if concert.festival is defined and concert.img_festival is defined %}
+                                    <img src="{{ asset('/images/festivals/'~concert.img_festival) }}" style="width:25px;" class="mx-auto d-block" alt="photo de {{ concert.artiste }}">
+                                {% else %}
+                                    <img src="{{ asset('/images/concerts/'~concert.img_concert) }}" style="width:25px;" class="mx-auto d-block" alt="photo de {{ concert.artiste }}">
+                                {% endif %}
+                            </td>
+                            <td>{{ concert.date }}</td>
+                            <td><b>{{ concert.artiste }}</b></td>
+                            <td><i>{{ concert.festival }}</i></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="3">{{ concert.lieu }} ({{ concert.ville }})</td>
+                        </tr>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+{#<div id="imgArtistList" class="d-flex align-content-center align-items-center">
+    {% if concert.img_festival is defined %}
+        <img src="{{ asset('/images/festivals/'~concert.img_festival) }}" class="card-img-top mx-auto d-block" alt="photo de {{ concert.artiste }}">
+    {% else %}
+        <img src="{{ asset('/images/concerts/'~concert.img_concert) }}" class="card-img-top mx-auto d-block" alt="photo de {{ concert.artiste }}">
+    {% endif %}
+</div>
+<div class="card-footer d-grid bg-transparent">
+    <a href="{{ path('ficheConcert', {'id': concert.id}) }}" class="btn border-secondary text-center">En savoir +</a>
+</div>#}
+        </div> {#end of row#}
+
+
+    </div> {#end of container#}
+{% endblock %}

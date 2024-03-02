@@ -8,6 +8,8 @@ use App\Repository\AlbumRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,6 +17,11 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AdminAlbumController extends AbstractController
 {
+    public $_filesystem;
+    public function __construct() {
+        $this->_filesystem = new Filesystem();
+    }
+
     #[Route('/admin/album', name: 'admin_albums', methods: ['GET'])]
     public function index(AlbumRepository $repoAlbum, PaginatorInterface $page, Request $req): Response
     {
@@ -44,8 +51,21 @@ class AdminAlbumController extends AbstractController
 
         $form = $this->createForm(AlbumType::class, $album);
         $form->handleRequest($req);
+
         if($form->isSubmitted() && $form->isValid()) {
-            dump($album);
+            $dirFiles = $this->getParameter('albums_img_dir');
+            $currentPhoto = $album->getImage();
+
+            if($currentPhoto && $this->_filesystem->exists($dirFiles.'/'.$currentPhoto)) {
+                try {
+                    $this->_filesystem->remove($dirFiles.'/'.$currentPhoto);
+                } catch(IOExceptionInterface $e) {
+                    dump('photo actuelle non supprimée');
+                }
+            } else {
+                dump('pas de photo existante');
+            }
+
             $pochetteFile = $form->get('image')->getData();
             if($pochetteFile) {
                 $safeFilename = $slugger->slug($pochetteFile);
@@ -54,10 +74,10 @@ class AdminAlbumController extends AbstractController
                     // $dir = '../../public/images/albums/';
                     // $pochetteFile->move($dir, $newFilename);
                     $pochetteFile->move(
-                        $this->getParameter('albums_img_dir'), // voir dans config/services.yaml
+                        $dirFiles, // voir dans config/services.yaml
                         $filename
                     );
-                } catch (FileException $e) {
+                } catch (IOExceptionInterface $e) {
                     dump('erreur chargement image pochette');
                     // ... handle exception if something happens during file upload
                 }
@@ -78,6 +98,18 @@ class AdminAlbumController extends AbstractController
     #[Route('/admin/album/delete/{id}', name: 'admin_delete_album', methods: ['GET'])]
     public function deleteAlbum(Album $album, EntityManagerInterface $em): Response
     {
+        $dirFiles = $this->getParameter('albums_img_dir');
+
+        if($album->getImage()) {
+            try {
+                $this->_filesystem->remove($dirFiles.'/'.$album->getImage());
+            } catch(IOExceptionInterface $e) {
+                dump('photo actuelle non supprimée');
+            }
+        } else {
+            dump('pas d\'image');
+        }
+
         $em->remove($album);
         $em->flush();
         $this->addFlash('success', 'Album "'.$album->getNom().'" supprimé !');

@@ -6,11 +6,57 @@
 
     <div class="container">
         <h1 class="text-center my-4">Bienvenue sur <small class="text-muted"><i>M@ Musique</i></small></h1>
-        <ul class="lead text-center my-5 list-group list-group-flush">
+        {#<ul class="lead text-center my-5 list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-center align-items-center"><a href="#">Mon top 50</a> &nbsp<span class="badge bg-primary rounded-pill"></span></li>
             <li class="list-group-item d-flex justify-content-center align-items-center"><a href="{{ path('artistes') }}">Mes artistes & groupes</a> &nbsp<span class="badge bg-primary rounded-pill">{{ nbArtists }}</span></li>
             <li class="list-group-item d-flex justify-content-center align-items-center"><a href="">Mes concerts</a> &nbsp<span class="badge bg-primary rounded-pill">{{ nbConcerts }}</span></li>
             <li class="list-group-item d-flex justify-content-center align-items-center"><a href="{{ path('albums') }}">Mes albums</a> &nbsp;<span class="badge bg-primary rounded-pill">{{ nbAlbums }}</span></li>
-        </ul>
+        </ul>#}
+
+        <div class="row py-4">
+            <div id="" class="cardArtist col-sm-12 col-md-6 col-lg-6 col-xl-3">
+                <div class="card" style="max-width: 30rem;">
+                    <div class="card-header d-flex justify-content-center">
+                        <p>Top 50</p>
+                    </div>
+                    <div class="card-body d-flex justify-content-center">
+                        <p>un truc à dire</p>
+                    </div>
+                </div>
+            </div>
+            <div id="" class="cardArtist col-sm-12 col-md-6 col-lg-6 col-xl-3">
+                <div class="card" style="max-width: 30rem;">
+                    <div class="card-header d-flex justify-content-center">
+                        <p>Mes artistes & groupes</p>
+                    </div>
+                    <div class="card-body d-flex justify-content-center">
+                        <p>un truc à dire</p>
+                    </div>
+                </div>
+            </div>
+            <div id="" class="cardArtist col-sm-12 col-md-6 col-lg-6 col-xl-3">
+                <div class="card" style="max-width: 30rem;">
+                    <div class="card-header d-flex justify-content-center">
+                        <p>Mes concerts</p>
+                    </div>
+                    <div class="card-body d-flex justify-content-center">
+                        <p>un truc à dire</p>
+                    </div>
+                </div>
+            </div>
+            <div id="" class="cardArtist col-sm-12 col-md-6 col-lg-6 col-xl-3">
+                <div class="card" style="max-width: 30rem;">
+                    <div class="card-header d-flex justify-content-center">
+                        <p>Mes albums</p>
+                    </div>
+                    <div class="card-body d-flex justify-content-center">
+                        <p>un truc à dire</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
     <div class="container my-5 d-flex justify-content-center">

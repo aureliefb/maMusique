@@ -8,6 +8,8 @@ use App\Repository\FestivalRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,6 +17,11 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AdminFestivalController extends AbstractController
 {
+    public $_filesystem;
+    public function __construct() {
+        $this->_filesystem = new Filesystem();
+    }
+
     #[Route('/admin/festival', name: 'admin_festival', methods: ['GET'])]
     public function index(FestivalRepository $repoFestival, PaginatorInterface $page, Request $req): Response
     {
@@ -47,7 +54,21 @@ class AdminFestivalController extends AbstractController
         //dump($festival->getLieu()->getVille());
         dump($festival);
         $form->handleRequest($req);
+
         if($form->isSubmitted() && $form->isValid()) {
+            $dirFiles = $this->getParameter('festivals_img_dir');
+            $currentPhoto = $festival->getImage();
+
+            if($currentPhoto && $this->_filesystem->exists($dirFiles.'/'.$currentPhoto)) {
+                try {
+                    $this->_filesystem->remove($dirFiles.'/'.$currentPhoto);
+                } catch(IOExceptionInterface $e) {
+                    dump('photo actuelle non supprimée');
+                }
+            } else {
+                dump('pas de photo existante');
+            }
+
             $afficheFile = $form->get('image')->getData();
             if($afficheFile) {
                 $safeFilename = $slugger->slug($afficheFile);
@@ -56,7 +77,7 @@ class AdminFestivalController extends AbstractController
                     // $dir = '../../public/images/albums/';
                     // $pochetteFile->move($dir, $newFilename);
                     $afficheFile->move(
-                        $this->getParameter('festivals_img_dir'), // voir dans config/services.yaml
+                        $dirFiles, // voir dans config/services.yaml
                         $filename
                     );
                 } catch (FileException $e) {
@@ -68,11 +89,11 @@ class AdminFestivalController extends AbstractController
             $em->persist($festival);
             $em->flush();
             $this->addFlash('success', 'Festival "'.$festival->getNomFestival().'" '.$mode.' !');
-            if($_GET['source'] === 'formAddConcert') {
+            /*if($_GET['source'] === 'formAddConcert') {
                 return $this->redirectToRoute('admin_add_concert');
-            } else {
+            } else {*/
                 return $this->redirectToRoute('admin_festival');
-            }
+            //}
         }
         return $this->render('admin/admin_festival/addEdit.html.twig', [
             'formFestival' => $form->createView(),
@@ -92,9 +113,21 @@ class AdminFestivalController extends AbstractController
          } elseif($nbConcerts > 0) {
              $this->addFlash('danger', 'Suppression impossible : '.$nbConcerts.' concerts associés');
          } else {*/
-        $em->remove($festival);
-        $em->flush();
-        $this->addFlash('success', 'Festival "'.$festival->getNomFestival().'" supprimé !');
+            $dirFiles = $this->getParameter('festivals_img_dir');
+
+            if($festival->getImage()) {
+                try {
+                    $this->_filesystem->remove($dirFiles.'/'.$festival->getImage());
+                } catch(IOExceptionInterface $e) {
+                    dump('photo actuelle non supprimée');
+                }
+            } else {
+                dump('pas d\'image');
+            }
+
+            $em->remove($festival);
+            $em->flush();
+            $this->addFlash('success', 'Festival "'.$festival->getNomFestival().'" supprimé !');
         //}
         return $this->redirectToRoute('admin_festival');
     }
