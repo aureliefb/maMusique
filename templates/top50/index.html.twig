@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Top 50{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid mx-5">
+        <h1 class="text-center my-4">Top 50 ({{ nbTitres }})</h1>
+
+        <div class="row col-6">
+            <ul class="list-group my-1">
+            {% for titre in titres %}
+                <li class="list-group-item d-flex justify-content-between">
+                    <span><b>{{ titre.artiste|upper }}</b></span>
+                    <span><i>{{ titre.titre }}</i></span>
+                    <span>{{ titre.style.style }}</span>
+                    <span>({{ titre.annee }})</span>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+{% endblock %}

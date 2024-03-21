@@ -8,6 +8,8 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 
+alert('ici');
+
 $("a[data-link]").click(function() {
     // on récupère les éléments de la balise a
     let link = $(this).attr('data-link');

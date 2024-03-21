@@ -5,7 +5,8 @@
 #tab-admin-festival thead,
 #tab-admin-supports thead,
 #tab-admin-albums thead,
-#tab-admin-concerts thead {
+#tab-admin-concerts thead,
+#tab-admin-top50 thead {
     font-size: 13px;
     font-weight: normal;
     color: white;
@@ -39,5 +40,26 @@
 }
 
 .cardArtist .card-header span:first-child {
-    font-size:1.1rem;
+    font-size: 1.1rem;
+}
+
+#blocks_menu a {
+    text-decoration: none;
+    color: black;
+}
+
+#blocks_menu a:hover .card {
+    border: 1px black solid;
+}
+#blocks_menu button:hover {
+    background-color: transparent;
+}
+
+#mapAdminLieux {
+    height: 285px;
+}
+
+#mapLieux {
+    height: 650px;
+    width: 620px;
 }

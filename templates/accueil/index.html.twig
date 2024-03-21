@@ -13,61 +13,82 @@
             <li class="list-group-item d-flex justify-content-center align-items-center"><a href="{{ path('albums') }}">Mes albums</a> &nbsp;<span class="badge bg-primary rounded-pill">{{ nbAlbums }}</span></li>
         </ul>#}
 
-        <div class="row py-4">
-            <div id="" class="cardArtist col-sm-12 col-md-6 col-lg-6 col-xl-3">
-                <div class="card" style="max-width: 30rem;">
+        <div id="blocks_menu" class="row py-4">
+            <div id="menu_top50" class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                <a href="{{ path('top50') }}">
+                <div class="card mb-4" style="max-width: 30rem; height: 240px;">
                     <div class="card-header d-flex justify-content-center">
-                        <p>Top 50</p>
+                        <h5 class="card-title">Top 50</h5>
                     </div>
-                    <div class="card-body d-flex justify-content-center">
-                        <p>un truc à dire</p>
+                    <div class="card-body d-flex justify-content-center flex-column" style="height:155px;">
+                        <p class="card-text text-center">"Salut les p'tits clous !" comme disait Marc Toesca</p>
+                    </div>
+                    <div class="card-body d-flex justify-content-center flex-column">
+                        <button class="btn btn-outline-warning text-muted">Découvrir</button>
                     </div>
                 </div>
+                </a>
             </div>
-            <div id="" class="cardArtist col-sm-12 col-md-6 col-lg-6 col-xl-3">
-                <div class="card" style="max-width: 30rem;">
+            <div id="menu_artists" class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                <a href="{{ path('artistes') }}">
+                <div class="card mb-4" style="max-width: 30rem; height: 240px;">
                     <div class="card-header d-flex justify-content-center">
-                        <p>Mes artistes & groupes</p>
+                        <h5 class="card-title">Artistes & groupes</h5>
                     </div>
-                    <div class="card-body d-flex justify-content-center">
-                        <p>un truc à dire</p>
+                    <div class="card-body mx-0 d-flex justify-content-center flex-column" style="height:155px;">
+                        <p class="card-text text-center">
+                            Vus en concert ou non<br/>
+                            Albums que j'ai ou pas<br/>
+                            Artistes que j'aime ou pas
+                        </p>
+                    </div>
+                    <div class="card-body d-flex justify-content-center flex-column">
+                        <button class="btn btn-outline-warning text-muted">Découvrir</button>
                     </div>
                 </div>
+                </a>
             </div>
-            <div id="" class="cardArtist col-sm-12 col-md-6 col-lg-6 col-xl-3">
-                <div class="card" style="max-width: 30rem;">
+            <div id="menu_concerts" class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                <a href="{{ path('concerts') }}">
+                <div class="card mb-4" style="max-width: 30rem; height: 240px;">
                     <div class="card-header d-flex justify-content-center">
-                        <p>Mes concerts</p>
+                        <h5 class="card-title">Concerts & festivals</h5>
                     </div>
-                    <div class="card-body d-flex justify-content-center">
-                        <p>un truc à dire</p>
+                    <div class="card-body d-flex justify-content-center flex-column" style="height:155px;">
+                        <p class="card-text text-center">Assise ou debout : <br/>
+                            les concerts & festivals auxquels j'ai assisté</p>
+                    </div>
+                    <div class="card-body d-flex justify-content-center flex-column">
+                        <button class="btn btn-outline-warning text-muted">Découvrir</button>
                     </div>
                 </div>
+                </a>
             </div>
-            <div id="" class="cardArtist col-sm-12 col-md-6 col-lg-6 col-xl-3">
-                <div class="card" style="max-width: 30rem;">
+            <div id="menu_albums" class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                <a href="{{ path('albums') }}">
+                <div class="card mb-4" style="max-width: 30rem; height: 240px;">
                     <div class="card-header d-flex justify-content-center">
-                        <p>Mes albums</p>
+                        <h5 class="card-title">Albums</h5>
                     </div>
-                    <div class="card-body d-flex justify-content-center">
-                        <p>un truc à dire</p>
+                    <div class="card-body d-flex justify-content-center flex-column" style="height:155px;">
+                        <p class="card-text text-center">En CD, en vinyl, en K7 (oui oui !) <br/>ou en mp3, mes albums</p>
+                    </div>
+                    <div class="card-body d-flex justify-content-center flex-column">
+                        <button class="btn btn-outline-warning text-muted">Découvrir</button>
                     </div>
                 </div>
+                </a>
             </div>
-
         </div>
 
     </div>
 
-    <div class="container my-5 d-flex justify-content-center">
-      
+    <div class="container d-flex justify-content-center">
         <div class="card col-12 text-dark bg-light border-warning">
-          <div class="row m-1">
-
+          <div class="row">
             <div class="card-body col-sm-12 col-md-5 d-flex justify-content-center align-items-start">
-              <img style="height:60%;" src="{{ asset('/images/artists/dido.jpg') }}" class="img-fluid rounded" alt="photo artiste ou couverture album">
+              <img style="height:60%;" src="{{ asset('/images/artists/C-xampp-tmp-php7245-tmp-65e3981f29c14.jpg') }}" class="img-fluid rounded" alt="photo artiste ou couverture album">
             </div>
-
             <div class="col-sm-12 col-md-7 d-flex flex-column">
               <div class="card-body flex-grow-1">
                 <h5 class="card-title">Artiste ou album au hasard</h5>
@@ -79,10 +100,8 @@
                 <button class="btn btn-primary btn-sm">Je veux en savoir +</button>
               </div>  
             </div>
-
           </div>
         </div>
-
     </div>
 
 

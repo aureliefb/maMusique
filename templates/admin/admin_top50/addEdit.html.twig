@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Top 50{% endblock %}
+{% block body %}
+    {% if app.request.attributes.get('_route') == 'admin_add_title' %}
+        {% set titre_page = 'Ajouter' %}
+        {% set btn_valid = 'Ajouter' %}
+    {% elseif app.request.attributes.get('_route') == 'admin_edit_title' %}
+        {% set titre_page = 'Modifier' %}
+        {% set btn_valid = 'Modifier' %}
+    {% endif %}
+
+    <div class="container col-12">
+        <div class="row my-4">
+            <div class="col-2"><a type="button" class="btn btn-secondary btn-sm" href="{{ path('admin_top50') }}">Retour</a></div>
+            <div class="col-8"><h1 class="text-center">{{ titre_page }} un titre au Top50</h1></div>
+        </div>
+        <div class="row">
+            <div class="offset-2 col-8">
+                {{ form_start(formTop50, {'attr':{'novalidate':'novalidate'}}) }}
+                    <div class="row">
+                        <div class="col-6">{{ form_row(formTop50.titre) }}</div>
+                        <div class="col-6">{{ form_row(formTop50.artiste) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">{{ form_row(formTop50.annee) }}</div>
+                        <div class="col-3">{{ form_row(formTop50.style) }}</div>
+                    </div>
+                    <a href="{{ path('admin_top50') }}" class="btn btn-secondary btn-sm">Annuler</a>
+                    <button type="submit" class="btn btn-primary btn-sm">{{ btn_valid }}</button>
+                {{ form_end(formTop50) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

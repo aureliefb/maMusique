@@ -25,29 +25,30 @@ class ConcertController extends AbstractController
             $artist = $concert->getArtiste()->getNom();
             $ville = $concert->getLieu()->getVille();
             $lieu = $concert->getLieu()->getNom();
+            $latitude = $concert->getLieu()->getLatitude();
+            $longitude = $concert->getLieu()->getLongitude();
             $date = $concert->getDateConcert();
             $festival = '';
             $img_festival = '';
-            if($concert->getFestival() !== NULL) {
-                $festival = $concert->getFestival()->getNomFestival();
-                $img_festival = $concert->getFestival()->getImage();
+            if($concert->getFestival() !== null) {
+                $festival = $concert->getFestival()->getNomFestival() ?? null;
+                $img_festival = $concert->getFestival()->getImage() ?? null;
             }
-            $img_concert = '';
-            if($concert->getImage() != NULL) {
-                $img_concert = $concert->getImage();
-            }
+            $img_concert = $concert->getImage() ?? null;
             $allConcerts[] = [
                 'id' => $id,
                 'artiste' => $artist,
                 'ville' => $ville,
                 'lieu' => $lieu,
+                'latitude' => $latitude,
+                'longitude' => $longitude,
                 'date' => $date,
                 'festival' => $festival,
-                'img_festival '=> $img_festival,
+                'img_festival'=> $img_festival,
                 'img_concert' => $img_concert
             ];
         }
-        dump($allConcerts);
+        //dump($allConcerts);
 
         $nbConcerts = $repo->countAllConcerts();
         /*$all_concerts = $page->paginate(

@@ -49,13 +49,13 @@ class AdminLieuController extends AbstractController
             $em->persist($lieu);
             $em->flush();
             $this->addFlash('success', 'Lieu "'.$lieu->getNom().'" '.$mode.' !');
-            if($_GET['source'] === 'formAddConcert') {
+            /*if($_GET['source'] === 'formAddConcert') {
                 return $this->redirectToRoute('admin_add_concert');
             } else if($_GET['source'] === 'formAddFestival') {
                 return $this->redirectToRoute('admin_add_festival');
-            } else {
+            } else {*/
                 return $this->redirectToRoute('admin_lieux');
-            }
+            //}
 
         }
         return $this->render('admin/admin_lieu/addEdit.html.twig', [
@@ -103,7 +103,7 @@ class AdminLieuController extends AbstractController
 
         $em->persist($lieu);
         $em->flush();
-        $this->addFlash('success', 'Coordonnées calculées et sauvegardées !');
+        $this->addFlash('success', $lieu->getNom().' - coordonnées calculées et sauvegardées !');
         return $this->redirectToRoute('admin_lieux');
     }
 
