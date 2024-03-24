@@ -19,7 +19,7 @@ class ConcertController extends AbstractController
     {
         $allConcerts = [];
         $getAllConcerts = $repo->listAllConcerts();
-        //dump($getAllConcerts);
+        dump($getAllConcerts);
 
         foreach($getAllConcerts as $concert) {
             $id = $concert->getId();
@@ -31,6 +31,7 @@ class ConcertController extends AbstractController
             $date = Carbon::createFromFormat('Y-m-d', $concert->getDateConcert(), 'Europe/Paris')->format('d/m/Y');
             $festival = [];
             if($concert->getFestival() !== null) {
+                //dump($concert->getFestival());
                 $festival['nom'] = $concert->getFestival()->getNomFestival() ?? null;
                 $festival['img'] = $concert->getFestival()->getImage() ?? null;
                 $festival['date_deb'] = $concert->getFestival()->getDateStart() ?? null;

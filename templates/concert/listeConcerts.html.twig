@@ -18,7 +18,7 @@
                 <div id="mapLieux" class="col-12"></div>
             </div>
 
-            <div class="col-6 mb-3">
+            <div class="col-5 offset-1 mb-3">
                 <table id="arrConcerts" class="table table-borderless table-sm">
                     {% for concert in concerts %}
                         {#{{ dump(concert) }}#}
@@ -33,7 +33,7 @@
                             <td rowspan="3" style="width:100px;">
                                 {% if concert.festival|length > 0 and concert.festival.img is defined %}
                                     <img src="{{ asset('/images/festivals/'~concert.festival.img) }}" style="width:3rem;" class="mx-auto d-block" alt="image concert {{ concert.artiste }}">
-                                {% elseif concert.img_concert|length == 0 and concert.img_concert is defined %}
+                                {% elseif concert.img_concert|length > 0 and concert.img_concert is defined %}
                                     <img src="{{ asset('/images/concerts/'~concert.img_concert) }}" style="width:3rem;" class="mx-auto d-block" alt="image concert {{ concert.artiste }}">
                                 {% endif %}
                             </td>
