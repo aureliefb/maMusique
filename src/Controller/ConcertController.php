@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Carbon\Carbon;
 use App\Entity\Concert;
 use App\Repository\ConcertRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -27,12 +28,15 @@ class ConcertController extends AbstractController
             $lieu = $concert->getLieu()->getNom();
             $latitude = $concert->getLieu()->getLatitude();
             $longitude = $concert->getLieu()->getLongitude();
-            $date = $concert->getDateConcert();
-            $festival = '';
-            $img_festival = '';
+            $date = Carbon::createFromFormat('Y-m-d', $concert->getDateConcert(), 'Europe/Paris')->format('d/m/Y');
+            $festival = [];
             if($concert->getFestival() !== null) {
-                $festival = $concert->getFestival()->getNomFestival() ?? null;
-                $img_festival = $concert->getFestival()->getImage() ?? null;
+                $festival['nom'] = $concert->getFestival()->getNomFestival() ?? null;
+                $festival['img'] = $concert->getFestival()->getImage() ?? null;
+                $festival['date_deb'] = $concert->getFestival()->getDateStart() ?? null;
+                $festival['date_fin'] = $concert->getFestival()->getDateEnd() ?? null;
+                $festival['lieu'] = $lieu;
+                $festival['ville'] = $ville;
             }
             $img_concert = $concert->getImage() ?? null;
             $allConcerts[] = [
@@ -44,7 +48,6 @@ class ConcertController extends AbstractController
                 'longitude' => $longitude,
                 'date' => $date,
                 'festival' => $festival,
-                'img_festival'=> $img_festival,
                 'img_concert' => $img_concert
             ];
         }
