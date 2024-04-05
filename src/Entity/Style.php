@@ -6,6 +6,7 @@ use App\Repository\StyleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: StyleRepository::class)]
@@ -18,6 +19,7 @@ class Style
 
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message:"Style obligatoire")]
+    //#[ORM\OrderBy(["DESC"])]
     private ?string $style = null;
 
     #[ORM\OneToMany(mappedBy: 'style', targetEntity: Artiste::class)]

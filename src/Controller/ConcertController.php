@@ -18,7 +18,7 @@ class ConcertController extends AbstractController
     public function index(ConcertRepository $repo, PaginatorInterface $page, Request $request): Response
     {
         $allConcerts = [];
-        $getAllConcerts = $repo->listAllConcerts();
+        $getAllConcerts = $repo->listAllConcerts('userConcerts');
         dump($getAllConcerts);
 
         foreach($getAllConcerts as $concert) {

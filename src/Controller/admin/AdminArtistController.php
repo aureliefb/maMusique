@@ -90,11 +90,12 @@ class AdminArtistController extends AbstractController
                 $em->persist($artist);
                 $em->flush();
                 $this->addFlash('success', 'Artiste "' . $artist->getNom() . '" ' . $mode . ' !');
-                if ($_GET && $_GET['source'] === 'formAddConcert') {
+                /*if ($_GET && $_GET['source'] === 'formAddConcert') {
                     return $this->redirectToRoute('admin_add_concert');
                 } else {
                     return $this->redirectToRoute('admin_artists');
-                }
+                }*/
+                return $this->redirectToRoute('admin_artists');
 
                 // si img existante trouvée
                 /*if(file_exists($dirFiles.'/'.$currentPhoto)) {

@@ -10,9 +10,7 @@ use App\Repository\StyleRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -22,12 +20,6 @@ use Symfony\Component\Validator\Constraints\File;
 
 class ArtistType extends AbstractType
 {
-    private $_styleRepo;
-    private $_paysRepo;
-    public function __construct(StyleRepository $styleRepo, PaysRepository $paysRepo) {
-        $this->_styleRepo = $styleRepo;
-        $this->_paysRepo = $paysRepo;
-    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -72,12 +64,20 @@ class ArtistType extends AbstractType
             ->add('style', EntityType::class, [
                 'class' => Style::class,
                 'choice_label' => 'style',
-                'placeholder' => 'Choisir un style'
+                'placeholder' => 'Choisir un style',
+                'query_builder' => function (StyleRepository $styleRepo) {
+                    return $styleRepo->createQueryBuilder('s')
+                        ->orderBy('s.style', 'ASC');
+                }
             ])
             ->add('pays', EntityType::class, [
                 'class' => Pays::class,
                 'choice_label' => 'pays',
-                'placeholder' => 'Choisir un pays'
+                'placeholder' => 'Choisir un pays',
+                'query_builder' => function (PaysRepository $paysRepo) {
+                    return $paysRepo->createQueryBuilder('p')
+                        ->orderBy('p.pays', 'ASC');
+                }
             ])
             //->add('albums')
         ;

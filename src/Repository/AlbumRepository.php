@@ -28,8 +28,8 @@ class AlbumRepository extends ServiceEntityRepository
     public function listAllAlbums(): ?Query
     {
         return $this->createQueryBuilder('alb')
-            ->select('alb', 'artiste')
-            ->leftJoin('alb.albumArtist', 'artiste')
+            ->select('alb')
+            //->leftJoin('alb.albumArtist', 'artiste')
             ->orderBy('alb.nom', 'ASC')
             ->getQuery()
             //->getResult()

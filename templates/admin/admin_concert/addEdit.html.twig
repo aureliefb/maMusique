@@ -27,13 +27,15 @@
                     <div class="row">
                         <div class="col-5">{{ form_row(formConcert.artiste) }}</div>
                         <div class="col-1 mt-3 pt-3">
-                            <a type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_artist', {'source': 'formAddConcert'}) }}">
+                            {#<a type="submit" target="_blank" class="btn btn-sm btn-success" href="{{ path('admin_add_artist', {'source': 'formAddConcert'}) }}">#}
+                            <a type="submit" target="_blank" class="btn btn-sm btn-success" href="{{ path('admin_add_artist') }}">
                                 <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20">
                             </a>
                         </div>
                         <div class="col-4 offset-1">{{ form_row(formConcert.lieu) }}</div>
                         <div class="col-1 mt-3 pt-3">
-                            <a type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_lieu', {'source': 'formAddConcert'}) }}">
+                            {#<a type="submit" target="_blank" class="btn btn-sm btn-success" href="{{ path('admin_add_lieu', {'source': 'formAddConcert'}) }}">#}
+                            <a type="submit" target="_blank" class="btn btn-sm btn-success" href="{{ path('admin_add_lieu') }}">
                                 <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20">
                             </a>
                         </div>
@@ -43,7 +45,8 @@
                         <div class="col-2 offset-2">{{ form_row(formConcert.is_festival) }}</div>
                         <div class="col-4">{{ form_row(formConcert.Festival) }}</div>
                         <div class="col-1 mt-3 pt-3">
-                            <a type="submit" class="btn btn-sm btn-success" href="{{path('admin_add_festival', {'source': 'formAddConcert'}) }}">
+                            {#<a type="submit" target="_blank" class="btn btn-sm btn-success" href="{{path('admin_add_festival', {'source': 'formAddConcert'}) }}">#}
+                            <a type="submit" target="_blank" class="btn btn-sm btn-success" href="{{path('admin_add_festival') }}">
                                 <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20">
                             </a>
                         </div>

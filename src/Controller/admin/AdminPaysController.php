@@ -49,11 +49,12 @@ class AdminPaysController extends AbstractController
             $em->persist($pays);
             $em->flush();
             $this->addFlash('success', 'Pays "'.$pays->getPays().'" '.$mode.' !');
-            if($_GET['source'] === 'formAddArtist') {
+            /*if($_GET['source'] === 'formAddArtist') {
                 return $this->redirectToRoute('admin_add_artist');
             } else {
                 return $this->redirectToRoute('admin_pays');
-            }
+            }*/
+            return $this->redirectToRoute('admin_pays');
         }
         return $this->render('admin/admin_pays/addEdit.html.twig', [
             'formPays' => $form->createView(),

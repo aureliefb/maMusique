@@ -6,6 +6,9 @@ use App\Entity\Artiste;
 use App\Entity\Concert;
 use App\Entity\Lieu;
 use App\Entity\Festival;
+use App\Repository\ArtisteRepository;
+use App\Repository\FestivalRepository;
+use App\Repository\LieuRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -51,7 +54,11 @@ class ConcertType extends AbstractType
                 'class' => Artiste::class,
                 'choice_label' => 'nom',
                 'placeholder' => 'Choisir un artiste',
-                'required' => true
+                'required' => true,
+                'query_builder' => function (ArtisteRepository $artisteRepo) {
+                    return $artisteRepo->createQueryBuilder('a')
+                        ->orderBy('a.nom', 'ASC');
+                }
             ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
@@ -59,16 +66,24 @@ class ConcertType extends AbstractType
                     return $lieu->getNom() .' ('. $lieu->getVille().')';
                 },
                 'placeholder' => 'Choisir un lieu',
-                'required' => true
+                'required' => true,
+                'query_builder' => function (LieuRepository $lieuRepo) {
+                    return $lieuRepo->createQueryBuilder('l')
+                        ->orderBy('l.nom', 'ASC');
+                }
             ])
             ->add('Festival', EntityType::class, [
                 'class' => Festival::class,
                 //'choice_label' => 'nom_festival',
                 'choice_label' => function($festival) {
-                    return $festival->getNomFestival();
+                    return $festival->getNomFestival() . ' ('.substr($festival->getDateStart(),0,4).')';
                 },
                 'placeholder' => 'Choisir un festival',
-                'required' => false
+                'required' => false,
+                'query_builder' => function (FestivalRepository $festivalRepo) {
+                    return $festivalRepo->createQueryBuilder('f')
+                        ->orderBy('f.nom_festival', 'ASC');
+                }
             ])
         ;
     }

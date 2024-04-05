@@ -31,14 +31,16 @@
                     <div class="row">
                         <div class="col-3">{{ form_row(formArtiste.pays) }}</div>
                         <div class="col-1 mt-3 pt-3">
-                            <a type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_pays', {'source':'formAddArtist'}) }}">
+                            {#<a type="submit" target="_blank" class="btn btn-sm btn-success" href="{{ path('admin_add_pays', {'source':'formAddArtist'}) }}">#}
+                            <a type="submit" target="_blank" class="btn btn-sm btn-success" href="{{ path('admin_add_pays') }}">
                                 <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20">
                             </a>
                         </div>
                         <div class="col-3 offset-1">{{ form_row(formArtiste.type, {'label': 'Type (groupe ou solo)'}) }}</div>
                         <div class="col-3">{{ form_row(formArtiste.style) }}</div>
                         <div class="col-1 mt-3 pt-3">
-                            <a type="submit" class="btn btn-sm btn-success" href="{{ path('admin_add_style', {'source':'formAddArtist'}) }}">
+                            {#<a type="submit" target="_blank"  class="btn btn-sm btn-success" href="{{ path('admin_add_style', {'source':'formAddArtist'}) }}">#}
+                            <a type="submit" target="_blank"  class="btn btn-sm btn-success" href="{{ path('admin_add_style') }}">
                                 <img src="{{ asset('/images/icons/plus.svg') }}" class="img-fluid" alt="icone-add" width="20" height="20">
                             </a>
                         </div>

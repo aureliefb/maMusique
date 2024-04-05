@@ -23,14 +23,18 @@ class ConcertRepository extends ServiceEntityRepository
         parent::__construct($registry, Concert::class);
     }
 
-    public function listAllConcerts(): array {
-        return $this->createQueryBuilder('c')
-            ->select('c', 'a', 'l', 'f')
+    public function listAllConcerts($page): array {
+        $qry = $this->createQueryBuilder('c');
+            $qry->select('c', 'a', 'l', 'f')
             ->leftJoin('c.artiste', 'a')
             ->leftJoin('c.lieu', 'l')
-            ->leftJoin('c.Festival', 'f')
-            ->orderBy('c.date_concert', 'DESC')
-            ->getQuery()
+            ->leftJoin('c.Festival', 'f');
+            if($page === 'userConcerts') {
+                $qry->orderBy('c.date_concert', 'DESC');
+            } else {
+                $qry->orderBy('a.nom', 'ASC');
+            }
+        return $qry->getQuery()
             ->getResult();
     }
 

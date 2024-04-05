@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\Album;
 use App\Entity\Artiste;
 use App\Entity\Support;
+use App\Repository\ArtisteRepository;
+use App\Repository\SupportRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -47,13 +49,21 @@ class AlbumType extends AbstractType
                 'class' => Support::class,
                 'choice_label' => 'support',
                 'label' => 'Support de l\'album',
-                'placeholder' => 'Choisir un support'
+                'placeholder' => 'Choisir un support',
+                'query_builder' => function (SupportRepository $supportRepo) {
+                    return $supportRepo->createQueryBuilder('s')
+                        ->orderBy('s.support', 'ASC');
+                }
             ])
             ->add('album_artist', EntityType::class, [
                 'class' => Artiste::class,
                 'choice_label' => 'nom',
                 'label' => 'Artiste / groupe',
-                'placeholder' => 'Choisir un artiste'
+                'placeholder' => 'Choisir un artiste',
+                'query_builder' => function (ArtisteRepository $artisteRepo) {
+                    return $artisteRepo->createQueryBuilder('a')
+                        ->orderBy('a.nom', 'ASC');
+                }
           ])
         ;
     }

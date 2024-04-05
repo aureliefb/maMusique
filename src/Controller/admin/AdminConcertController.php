@@ -25,7 +25,7 @@ class AdminConcertController extends AbstractController
     #[Route('/admin/concert', name: 'admin_concerts')]
     public function index(ConcertRepository $repoConcert, PaginatorInterface $page, Request $req): Response
     {
-        $qry_concerts = $repoConcert->listAllConcerts();
+        $qry_concerts = $repoConcert->listAllConcerts('adminConcerts');
         $nbConcerts = $repoConcert->countAllConcerts();
         $list_concerts = $page->paginate(
             $qry_concerts,

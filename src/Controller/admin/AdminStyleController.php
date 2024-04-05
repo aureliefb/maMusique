@@ -48,12 +48,12 @@ class AdminStyleController extends AbstractController
             $em->persist($style);
             $em->flush();
             $this->addFlash('success', 'Style "'.$style->getStyle().'" '.$mode.' !');
-            if($_GET && $_GET['source'] === 'formAddArtist') {
+            /*if($_GET && $_GET['source'] === 'formAddArtist') {
                 return $this->redirectToRoute('admin_add_artist');
             } else {
                 return $this->redirectToRoute('admin_styles');
-            }
-
+            }*/
+            return $this->redirectToRoute('admin_styles');
         }
         return $this->render('admin/admin_style/addEdit.html.twig', [
             'formStyle' => $form->createView(),
